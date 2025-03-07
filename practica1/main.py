@@ -1,6 +1,6 @@
 import sys
 
-from src.database import get_connection
+from src.database import get_connection, get_active_connection
 from src.extract import extract_data
 from src.transform import transform_and_clean_data
 from src.load import load_to_sql_server, check_model_exists, fix_airport_data
@@ -97,9 +97,64 @@ def procesar_archivos_especificos():
     print("Procesando archivos de entrada específicos...")
 
 def consultas_analiticas(cnxn):
+    cnxn = get_active_connection(cnxn)
+    print("Ejecutando consultas analíticas predefinidas...\n")
+    
+    query_file = "practica1/database/queries.sql"
+    
+    try:
+        with open(query_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    except Exception as e:
+        print("Error al leer el archivo de queries:", e)
+        return
 
-    print("Ejecutando consultas analíticas predefinidas...")
+    # Separamos el archivo en bloques: título (comentario) y consulta
+    queries = []
+    current_title = None
+    current_query = ""
+    for line in lines:
+        # Si la línea es un comentario que inicia con '--'
+        if line.strip().startswith("--"):
+            # Si ya habíamos acumulado una consulta, la guardamos junto a su título (comentario)
+            if current_query.strip():
+                queries.append((current_title, current_query.strip()))
+                current_query = ""
+            # Guardamos el título (comentario) (removiendo el '--')
+            current_title = line.strip()[2:].strip()
+        else:
+            # Acumular las líneas de la consulta
+            current_query += line
 
+    # Agregar la última consulta si existe
+    if current_query.strip():
+        queries.append((current_title, current_query.strip()))
+    
+    cursor = cnxn.cursor()
+    
+    # Recorrer cada query, mostrar título y ejecutar la consulta
+    for title, query in queries:
+        print("\n" + title)
+        print("-" * len(title))
+        try:
+            cursor.execute(query)
+            
+            # En el caso de queries que retornen resultados
+            try:
+                rows = cursor.fetchall()
+                if rows:
+                    # Muestra los resultados
+                    for row in rows:
+                        print(row)
+                else:
+                    print("La consulta se ejecutó correctamente, pero no devolvió resultados.")
+            except Exception:
+                # En queries que no retornan resultado (como las de DML o de ejecución dinámica)
+                print("La consulta se ejecutó correctamente.\n")
+        except Exception as e:
+            print("Error en la consulta:", e)
+    
+    cnxn.commit()
 
 def main():
     # 1. Intentar obtener la conexión a la base de datos

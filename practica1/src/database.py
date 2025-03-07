@@ -18,3 +18,11 @@ def get_connection():
         return cnxn
     except Exception:
         return None
+    
+def get_active_connection(cnxn):
+    try:
+        cnxn.cursor()
+        return cnxn  # La conexión está activa
+    except pyodbc.ProgrammingError:
+        # Reabrir la conexión
+        return get_connection()
