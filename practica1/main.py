@@ -1,4 +1,9 @@
+import sys
+
 from src.database import get_connection
+from src.extract import extract_data
+from src.transform import transform_and_clean_data
+
 
 def mostrar_menu():
     """
@@ -25,8 +30,26 @@ def crear_modelo_nuevo(cnxn):
     print("Creando nuevo modelo de datos...")
 
 def extraer_informacion_archivos():
+    """
+    Extrae los datos del archivo CSV por defecto, los almacena en memoria,
+    los transforma y muestra una muestra de cada tabla resultante.
+    """
+    csv_path = "practica1/data/VuelosDataSet.csv"  # Archivo CSV por defecto
+    # Extracción: guardar el DataFrame en memoria
+    df_extraction = extract_data(csv_path)
+    if df_extraction is None:
+        print("Falló la extracción de datos.")
+        return None
     
-    print("Extrayendo información de los archivos fuentes...")
+    print("Iniciando transformación de datos...\n")
+    tablas = transform_and_clean_data(df_extraction)
+    print(tablas["DIM_PASSENGER"].head())
+    print(tablas["DIM_DATE"].head())
+    print(tablas["DIM_AIRPORT"].head())
+    print(tablas["DIM_AIRLINE"])
+    print(tablas["FACT_VUELO"].head())
+    print("\nTransformación de datos completada.")
+    
 
 def procesar_archivos_especificos():
 
