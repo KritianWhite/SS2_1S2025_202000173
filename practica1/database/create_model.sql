@@ -33,5 +33,5 @@ CREATE TABLE FACT_VUELO (
   OrigenAirportID int FOREIGN KEY REFERENCES DIM_AIRPORT(AirportID),
   DestinoAirportID int FOREIGN KEY REFERENCES DIM_AIRPORT(AirportID),
   AirlineID int FOREIGN KEY REFERENCES DIM_AIRLINE(AirlineID),
-  EstadoVuelo varchar(50)
+  EstadoVuelo varchar(100)
 );

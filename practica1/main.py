@@ -3,6 +3,7 @@ import sys
 from src.database import get_connection
 from src.extract import extract_data
 from src.transform import transform_and_clean_data
+from src.load import load_to_sql_server, check_model_exists, fix_airport_data
 
 
 def mostrar_menu():
@@ -22,14 +23,37 @@ def mostrar_menu():
 
 def borrar_modelo_existente(cnxn):
 
-    print("Borrando el modelo existente...")
-
+    try:
+        with open("practica1/database/drop_model.sql", "r", encoding="utf-8") as f:
+            sql_script = f.read()
+        cursor = cnxn.cursor()
+        # Ejecutar cada instrucción SQL separada por ";"
+        for statement in sql_script.split(";"):
+            if statement.strip():
+                cursor.execute(statement)
+        cnxn.commit()
+        print("El modelo de datos ha sido eliminado exitosamente.")
+    except Exception as e:
+        print("Error al eliminar el modelo de datos:", e)
 
 def crear_modelo_nuevo(cnxn):
+    
+    print("Creando modelo de datos...")
+    try:
+        with open("practica1/database/create_model.sql", "r", encoding="utf-8") as f:
+            sql_script = f.read()
+        cursor = cnxn.cursor()
+        # Ejecutar cada instrucción SQL separada por ";"
+        for statement in sql_script.split(";"):
+            if statement.strip():
+                cursor.execute(statement)
+        cnxn.commit()
+        print("\nEl modelo de datos ha sido creado exitosamente.")
+    except Exception as e:
+        print("Error al crear el modelo de datos:", e)
 
-    print("Creando nuevo modelo de datos...")
 
-def extraer_informacion_archivos():
+def extraer_informacion_archivos(cnxn):
     """
     Extrae los datos del archivo CSV por defecto, los almacena en memoria,
     los transforma y muestra una muestra de cada tabla resultante.
@@ -41,8 +65,13 @@ def extraer_informacion_archivos():
         print("Falló la extracción de datos.")
         return None
     
+    # Transformación: limpiar y transformar los datos
     print("Iniciando transformación de datos...\n")
     tablas = transform_and_clean_data(df_extraction)
+    
+    if 'DIM_AIRPORT' in tablas:
+        tablas['DIM_AIRPORT'] = fix_airport_data(tablas['DIM_AIRPORT'])
+    
     print(tablas["DIM_PASSENGER"].head())
     print(tablas["DIM_DATE"].head())
     print(tablas["DIM_AIRPORT"].head())
@@ -50,6 +79,18 @@ def extraer_informacion_archivos():
     print(tablas["FACT_VUELO"].head())
     print("\nTransformación de datos completada.")
     
+    # Cargar los datos en la base de datos
+    print("\nCargando datos en la base de datos...")
+    # Validar si el modelo de datos existe
+    if not check_model_exists(cnxn):
+        print("Antes debes de crear un nuevo modelo.")
+        return
+
+    # Si existe, proceder con la carga
+    try:
+        load_to_sql_server(tablas, cnxn)
+    finally:
+        cnxn.close()
 
 def procesar_archivos_especificos():
 
@@ -77,7 +118,7 @@ def main():
         elif opcion == "2":
             crear_modelo_nuevo(cnxn)
         elif opcion == "3":
-            extraer_informacion_archivos()
+            extraer_informacion_archivos(cnxn)
         elif opcion == "4":
             procesar_archivos_especificos()
         elif opcion == "5":

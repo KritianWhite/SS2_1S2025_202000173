@@ -7,7 +7,7 @@ def get_connection():
     """
     try:
         connection_string = (
-            "DRIVER={ODBC Driver 17 for SQL Server};"
+            "DRIVER={ODBC Driver 18 for SQL Server};"
             "SERVER=DESKTOP-B3TTJH2\\SQLEXPRESS;" 
             "DATABASE=practica_semi2;" 
             "UID=sa;" 
