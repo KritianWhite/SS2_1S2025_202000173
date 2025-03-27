@@ -17,6 +17,12 @@ def transform_and_clean_data(df):
       dict: Diccionario con cada DataFrame resultante limpio y transformado.
     """
     # ---- Limpieza General ----
+    # Eliminar filas con valores nulos en cualquier columna
+    df = df.dropna()
+    
+    # Eliminar filas duplicadas
+    df = df.drop_duplicates()
+    
     # Eliminar espacios en blanco en nombres de columnas
     df.columns = df.columns.str.strip()
     

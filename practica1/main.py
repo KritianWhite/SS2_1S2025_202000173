@@ -50,7 +50,7 @@ def crear_modelo_nuevo(cnxn):
         cnxn.commit()
         print("\nEl modelo de datos ha sido creado exitosamente.")
     except Exception as e:
-        print("Error al crear el modelo de datos:", e)
+        print("Error al crear el modelo de datos:, porque ya se encuentra un modelo de datos existente...")
 
 
 def extraer_informacion_archivos(cnxn):
@@ -185,7 +185,10 @@ def main():
             print("Opción inválida. Intente de nuevo.")
 
     # 3. Cerrar la conexión antes de salir
-    cnxn.close()
+    try:
+        cnxn.close()
+    except Exception as e:
+        print ("")
 
 if __name__ == "__main__":
     main()
