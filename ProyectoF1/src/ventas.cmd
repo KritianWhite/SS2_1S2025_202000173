@@ -6,7 +6,7 @@ set PGHOST=db.ykafauxqhwgpelazvsjj.supabase.co
 set PGPORT=5432
 set PGDATABASE=postgres
 set PGUSER=postgres
-set PGPASSWORD=password
+set PGPASSWORD=**
 set CSV_FILE=C:\Users\kriti\OneDrive\Documents\GitHub\SS2_1S2025_202000173\ProyectoF1\data\SGFood02.vent
 set TABLE_NAME=Ventas_Temp
 

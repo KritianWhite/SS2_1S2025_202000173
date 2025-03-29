@@ -6,9 +6,9 @@ set PGHOST=db.ykafauxqhwgpelazvsjj.supabase.co
 set PGPORT=5432
 set PGDATABASE=postgres
 set PGUSER=postgres
-set PGPASSWORD=password
-set CSV_FILE=C:\Users\kriti\OneDrive\Documents\GitHub\SS2_1S2025_202000173\ProyectoF1\data\SGFood03.vent
-set TABLE_NAME=Ventas_Temp
+set PGPASSWORD=**
+set CSV_FILE=C:\Users\kriti\OneDrive\Documents\GitHub\SS2_1S2025_202000173\ProyectoF1\data\SGFood02.comp
+set TABLE_NAME=Compras_Temp
 
 :: Configuración del archivo de log
 set LOG_FILE=%~dp0upload_log_%date:~-4,4%%date:~-7,2%%date:~-10,2%_%time:~0,2%%time:~3,2%%time:~6,2%.log
