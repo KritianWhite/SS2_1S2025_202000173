@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="3/27/2025 1:02:34 AM"
@@ -138,7 +138,7 @@
       DTS:ExecutableType="Microsoft.BulkInsertTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Compras 1 Bulk Insert Task"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <BulkInsertTask:BulkInsertTaskData
@@ -178,7 +178,7 @@
       DTS:ExecutableType="Microsoft.BulkInsertTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Compras 3 Bulk Insert Task"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <BulkInsertTask:BulkInsertTaskData
@@ -1202,7 +1202,7 @@
       DTS:ExecutableType="Microsoft.BulkInsertTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Ventas 1 Bulk Insert Task"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <BulkInsertTask:BulkInsertTaskData
@@ -1242,7 +1242,7 @@
       DTS:ExecutableType="Microsoft.BulkInsertTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Ventas 3 Bulk Insert Task"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <BulkInsertTask:BulkInsertTaskData
