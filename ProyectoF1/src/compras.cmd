@@ -2,11 +2,11 @@
 setlocal EnableDelayedExpansion
 
 :: Configuración de conexión Supabase
-set PGHOST=db.ykafauxqhwgpelazvsjj.supabase.co
+set PGHOST=aws-0-us-east-1.pooler.supabase.com
 set PGPORT=5432
 set PGDATABASE=postgres
 set PGUSER=postgres
-set PGPASSWORD=**
+set PGPASSWORD=Sseminario2025**
 set CSV_FILE=C:\Users\kriti\OneDrive\Documents\GitHub\SS2_1S2025_202000173\ProyectoF1\data\SGFood02.comp
 set TABLE_NAME=Compras_Temp
 
